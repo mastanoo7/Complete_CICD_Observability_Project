@@ -3103,7 +3103,11 @@ Same HPA structure, just change `name`.
 
 ---
 
-                            End
+>## 🎉 Congratulations!
+>
+>If you’ve made it this far and successfully deployed the application — well done!
+>
+>You’ve just completed a full hands-on implementation. Keep going and keep building 🚀
 
 ---
 
@@ -3260,6 +3264,6 @@ helm install boutique oci://ghcr.io/laxmikantagiri/onlineboutique --version 0.10
 
 ---
 ---
-                            End
+                                        End
 ---
 ---
