@@ -1267,12 +1267,7 @@ In our case i kept in `microservices-extra-kube-manifests/` folder in the root d
       defaultConfiguration:
         targetType: ip
     ```
-    
-    Apply (Optional):
-    
-    ```bash
-    kubectl apply -f target-grp.yaml
-    ```
+  
     
 - **Create the HTTProute for the app so that it will get attached with the gateway and add as a listener in the load balancer.**
     
@@ -1302,12 +1297,6 @@ In our case i kept in `microservices-extra-kube-manifests/` folder in the root d
       - backendRefs:
         - name: frontend
           port: 80
-    ```
-    
-    Apply it (Optional):
-    
-    ```bash
-    kubectl apply -f HTTProute.yaml
     ```
     
 - ArgoCD can deploy **multiple sources from one repo** inside a single Application using `Kustomize`.
@@ -2288,7 +2277,7 @@ Check all the availble metrices
 - we will use elasticsearch for logsstore, filebeat for log shipping and kibana for the visualization.
 
 ```
-NOTE: The EBS driver we installed through terraform in eks.tf as an addon is for elasticsearch to dynamically provision an EBS volume.
+NOTE: We need the EBS csi driver EKS addon for elasticsearch to dynamically provision an EBS volume.
 ```
 
 You can follow the below steps for EBS csi driver installation:
