@@ -1650,7 +1650,7 @@ We generally dont manage the observability stack by Argocd. Because anyone havin
 
 ## 1. Monitoring
 
-Cretae a namespace:
+Create a namespace:
 
 ```bash
 kubectl create ns monitoring
@@ -2294,7 +2294,7 @@ List all the addons to verify:
 aws eks list-addons --cluster-name <cluster name>
 ```
 
-Make sure EBS csi driver is added
+
 
 Create an IAM role and attach a policy. AWS maintains an AWS managed policy or you can create your own custom policy. You can create an IAM role and attach the AWS managed policy with the following command. Replace `*my-cluster*` with the name of your cluster. The command deploys an AWS CloudFormation stack that creates an IAM role and attaches the IAM policy to it.
 
@@ -2309,7 +2309,12 @@ eksctl create iamserviceaccount \
    --override-existing-serviceaccounts \
    --approve
 ```
-
+Make sure EBS csi driver is added. 
+Take the role name from the cloudformation template output.
+```
+eksctl create addon --cluster terraform-cluster --name aws-ebs-csi-driver --version latest \
+    --service-account-role-arn arn:aws:iam::224075521056:role/eksctl-terraform-cluster-addon-iamserviceacco-Role1-AXN8WDL6k09R --force
+```
 make sure all the pods are running:
 
 ```bash
@@ -2455,12 +2460,15 @@ elasticsearchRef:
 daemonSet:
   podTemplate:
     spec:
-      securityContext:
-        runAsUser: 0
       serviceAccount: elastic-beat-filebeat
       automountServiceAccountToken: true
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: true
       containers:
         - name: filebeat
+          securityContext:
+            runAsUser: 0
           env:
           - name: NODE_NAME
             valueFrom:
@@ -2496,8 +2504,19 @@ config:
             enabled: true
             default_config:
               type: filestream
+              id: kubernetes-container-logs-${data.kubernetes.pod.name}-${data.kubernetes.container.id}
               paths:
               - /var/log/containers/*${data.kubernetes.container.id}.log
+              parsers:
+              - container: {}
+              prospector:
+                scanner:
+                  fingerprint.enabled: true
+                  symlinks: true
+              file_identity.fingerprint: {}
+  processors:
+   - add_cloud_metadata: {}
+   - add_host_metadata: {}
 
 secureSettings: []
 
@@ -2529,6 +2548,20 @@ clusterRole:
     - get
     - watch
     - list
+  - apiGroups: ["apps"]
+    resources:
+    - replicasets
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups: ["batch"]
+    resources:
+    - jobs
+    verbs:
+    - get
+    - list
+    - watch
 ```
 
 Make sure your values matche to the above config.
@@ -2935,7 +2968,7 @@ USERS
 Increase it:
 
 ```yaml
--name:USERSvalue:"200"
+-name:USERS value:"200"
 ```
 
 Save.
