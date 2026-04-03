@@ -2440,6 +2440,8 @@ And add the following
 
 Reference from this Doc: [https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/configuration-beats#k8s-beat-chose-the-deployment-model](https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/configuration-beats#k8s-beat-chose-the-deployment-model)
 
+https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/configuration-examples-beats
+
 vi **`observability/helm-values/eck-beats-0.18.0.yaml`**
 
 ```bash
