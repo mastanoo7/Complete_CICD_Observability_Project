@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     env:
       IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/microservices-demo/${{ inputs.service }}:sha-${{ github.sha }}
 
@@ -21,7 +22,7 @@ jobs:
         uses: actions/checkout@v4
 
       # -------------------
-      # Docker Buildx (cache support)
+      # Setup Docker Buildx
       # -------------------
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -37,18 +38,32 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       # -------------------
-      # Build Docker image (cached)
+      # Set Build Context Dynamically
+      # -------------------
+      - name: Set build context
+        run: |
+          if [ "${{ inputs.service }}" = "cartservice" ]; then
+            echo "BUILD_CONTEXT=./src/cartservice/src" >> $GITHUB_ENV
+            echo "DOCKERFILE=./src/cartservice/src/Dockerfile" >> $GITHUB_ENV
+          else
+            echo "BUILD_CONTEXT=./src/${{ inputs.service }}" >> $GITHUB_ENV
+            echo "DOCKERFILE=./src/${{ inputs.service }}/Dockerfile" >> $GITHUB_ENV
+          fi
+
+      # -------------------
+      # Build Docker image (with cache)
       # -------------------
       - name: Build Image
         run: |
           docker build \
+            -f $DOCKERFILE \
             --cache-from=type=gha \
             --cache-to=type=gha,mode=max \
             -t $IMAGE_NAME \
-            ./src/${{ inputs.service }}
+            $BUILD_CONTEXT
 
       # -------------------
-      # Security Scan (before push)
+      # Security Scan (Trivy)
       # -------------------
       - name: Run Trivy Scan
         uses: aquasecurity/trivy-action@v0.20.0
@@ -60,8 +75,7 @@ jobs:
           vuln-type: os,library
 
       # -------------------
-      # Push image (only if scan passes)
+      # Push image to GHCR
       # -------------------
       - name: Push Image
-        run: |
-          docker push $IMAGE_NAME
+        run: docker push $IMAGE_NAME
