@@ -97,17 +97,17 @@ They are built using **Microservices Architecture**.
 
 | **Service** | **Language** | **Description** |
 | --- | --- | --- |
-| [frontend](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/frontend) | Go | Exposes an HTTP server to serve the website. Does not require signup/login and generates session IDs for all users automatically. |
-| [cartservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/cartservice) | C# | Stores the items in the user's shopping cart in Redis and retrieves it. |
-| [productcatalogservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/productcatalogservice) | Go | Provides the list of products from a JSON file and ability to search products and get individual products. |
-| [currencyservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/currencyservice) | Node.js | Converts one money amount to another currency. Uses real values fetched from European Central Bank. It's the highest QPS service. |
-| [paymentservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/paymentservice) | Node.js | Charges the given credit card info (mock) with the given amount and returns a transaction ID. |
-| [shippingservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/shippingservice) | Go | Gives shipping cost estimates based on the shopping cart. Ships items to the given address (mock) |
-| [emailservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/emailservice) | Python | Sends users an order confirmation email (mock). |
-| [checkoutservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/checkoutservice) | Go | Retrieves user cart, prepares order and orchestrates the payment, shipping and the email notification. |
-| [recommendationservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/recommendationservice) | Python | Recommends other products based on what's given in the cart. |
-| [adservice](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/adservice) | Java | Provides text ads based on given context words. |
-| [loadgenerator](https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/loadgenerator) | Python/Locust | Continuously sends requests imitating realistic user shopping flows to the frontend. |
+| [frontend](https://github.com/mastanoo7/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/frontend) | Go | Exposes an HTTP server to serve the website. Does not require signup/login and generates session IDs for all users automatically. |
+| [cartservice](https://github.com/mastanoo7/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/cartservice) | C# | Stores the items in the user's shopping cart in Redis and retrieves it. |
+| [productcatalogservice](https://github.com/mastanoo7/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/productcatalogservice) | Go | Provides the list of products from a JSON file and ability to search products and get individual products. |
+| [currencyservice](https://github.com/mastanoo7/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/currencyservice) | Node.js | Converts one money amount to another currency. Uses real values fetched from European Central Bank. It's the highest QPS service. |
+| [paymentservice](https://github.com/mastanoo7/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/paymentservice) | Node.js | Charges the given credit card info (mock) with the given amount and returns a transaction ID. |
+| [shippingservice](https://github.com/mastanoo7/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/shippingservice) | Go | Gives shipping cost estimates based on the shopping cart. Ships items to the given address (mock) |
+| [emailservice](https://github.com/mastanoo7/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/emailservice) | Python | Sends users an order confirmation email (mock). |
+| [checkoutservice](https://github.com/mastanoo7/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/checkoutservice) | Go | Retrieves user cart, prepares order and orchestrates the payment, shipping and the email notification. |
+| [recommendationservice](https://github.com/mastanoo7/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/recommendationservice) | Python | Recommends other products based on what's given in the cart. |
+| [adservice](https://github.com/mastanoo7/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/adservice) | Java | Provides text ads based on given context words. |
+| [loadgenerator](https://github.com/mastanoo7/Production-Grade_GitOps-Driven_Microservices-Demo/blob/main/src/loadgenerator) | Python/Locust | Continuously sends requests imitating realistic user shopping flows to the frontend. |
 
 Screenshots:
 
@@ -293,7 +293,7 @@ There is **NO dedicated “orders database”**.
 Clone the repo:
 
 ```bash
-https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo.git
+https://github.com/mastanoo7/Production-Grade_GitOps-Driven_Microservices-Demo.git
 ```
 
 chnage directory to terraform:
@@ -1354,7 +1354,7 @@ resources:
 
 helmCharts:
   - name: boutique-app
-    repo: oci://ghcr.io/laxmikantagiri/onlineboutique
+    repo: oci://ghcr.io/mastanoo7/onlineboutique
     version: 0.10.4
     releaseName: boutique-app
     namespace: boutique-app
@@ -1392,7 +1392,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/laxmikantagiri/Production-Grade_GitOps-Driven_Microservices-Demo.git
+    repoURL: https://github.com/mastanoo7/Production-Grade_GitOps-Driven_Microservices-Demo.git
     targetRevision: HEAD
     path: .
 
@@ -1428,7 +1428,7 @@ So whenever CI part is done and the image is pushed to the registry the same ima
 #currently using the the older version of the image "v0.10.4"
 kubectl describe po frontend-7dd5db5f5-xb7g8 -n boutique-app | grep "image"
 
-Normal  Pulled     51m   kubelet            spec.containers{server}: Container image "ghcr.io/laxmikantagiri/microservices-demo/frontend:v0.10.4" already present on machine
+Normal  Pulled     51m   kubelet            spec.containers{server}: Container image "ghcr.io/mastanoo7/microservices-demo/frontend:v0.10.4" already present on machine
 ```
 
 ## Install Argo Image Updater.
@@ -1586,37 +1586,37 @@ spec:
 
       images:
         - alias: adservice
-          imageName: ghcr.io/laxmikantagiri/microservices-demo/adservice
+          imageName: ghcr.io/mastanoo7/microservices-demo/adservice
 
         - alias: cartservice
-          imageName: ghcr.io/laxmikantagiri/microservices-demo/cartservice
+          imageName: ghcr.io/mastanoo7/microservices-demo/cartservice
 
         - alias: checkoutservice
-          imageName: ghcr.io/laxmikantagiri/microservices-demo/checkoutservice
+          imageName: ghcr.io/mastanoo7/microservices-demo/checkoutservice
 
         - alias: currencyservice
-          imageName: ghcr.io/laxmikantagiri/microservices-demo/currencyservice
+          imageName: ghcr.io/mastanoo7/microservices-demo/currencyservice
 
         - alias: emailservice
-          imageName: ghcr.io/laxmikantagiri/microservices-demo/emailservice
+          imageName: ghcr.io/mastanoo7/microservices-demo/emailservice
 
         - alias: frontend
-          imageName: ghcr.io/laxmikantagiri/microservices-demo/frontend
+          imageName: ghcr.io/mastanoo7/microservices-demo/frontend
 
         - alias: paymentservice
-          imageName: ghcr.io/laxmikantagiri/microservices-demo/paymentservice
+          imageName: ghcr.io/mastanoo7/microservices-demo/paymentservice
 
         - alias: productcatalogservice
-          imageName: ghcr.io/laxmikantagiri/microservices-demo/productcatalogservice
+          imageName: ghcr.io/mastanoo7/microservices-demo/productcatalogservice
 
         - alias: recommendationservice
-          imageName: ghcr.io/laxmikantagiri/microservices-demo/recommendationservice
+          imageName: ghcr.io/mastanoo7/microservices-demo/recommendationservice
 
         - alias: shippingservice
-          imageName: ghcr.io/laxmikantagiri/microservices-demo/shippingservice
+          imageName: ghcr.io/mastanoo7/microservices-demo/shippingservice
 
         - alias: loadgenerator
-          imageName: ghcr.io/laxmikantagiri/microservices-demo/loadgenerator
+          imageName: ghcr.io/mastanoo7/microservices-demo/loadgenerator
 ```
 
 Apply it:
@@ -3184,13 +3184,13 @@ echo <TOKEN> | docker login ghcr.io \
 Tag/Retag your image:
 
 ```bash
-docker tag us-central1-docker.pkg.dev/google-samples/microservices-demo/adservice:v0.10.4 ghcr.io/laxmikantagiri/microservices-demo/adservice:v0.10.4
+docker tag us-central1-docker.pkg.dev/google-samples/microservices-demo/adservice:v0.10.4 ghcr.io/mastanoo7/microservices-demo/adservice:v0.10.4
 ```
 
 Push the image:
 
 ```bash
-  docker push ghcr.io/laxmikantagiri/microservices-demo/adservice:v0.10.4 
+  docker push ghcr.io/mastanoo7/microservices-demo/adservice:v0.10.4 
 ```
 </details>
 
@@ -3274,7 +3274,7 @@ Chart.yaml  README.md  onlineboutique-0.10.4.tgz  templates  values.yaml
 Push to the repository:
 
 ```bash
-helm push onlineboutique-0.10.4.tgz oci://ghcr.io/laxmikantagiri
+helm push onlineboutique-0.10.4.tgz oci://ghcr.io/mastanoo7
 ```
 
 Now you can directly install the package using the below command
@@ -3282,7 +3282,7 @@ Now you can directly install the package using the below command
 (Make sure its public)
 
 ```bash
-helm install boutique oci://ghcr.io/laxmikantagiri/onlineboutique --version 0.10.4
+helm install boutique oci://ghcr.io/mastanoo7/onlineboutique --version 0.10.4
 ```
 </details>
 
